@@ -1,0 +1,31 @@
+{
+  "name": "qsub",
+  "version": "0.0.1",
+  "description": "Run subprocesses as promises",
+  "main": "qsub.js",
+  "scripts": {
+    "test": "jasmine-node --captureExceptions test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/limikael/qsub.git"
+  },
+  "keywords": [
+    "q",
+    "promise",
+    "task",
+    "subprocess"
+  ],
+  "author": "Mikael Lindqvist",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/limikael/qsub/issues"
+  },
+  "homepage": "https://github.com/limikael/qsub",
+  "devDependencies": {
+    "jasmine-node": "^1.14.5"
+  },
+  "dependencies": {
+    "q": "^1.0.1"
+  }
+}
