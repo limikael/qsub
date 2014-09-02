@@ -107,7 +107,6 @@ qsub.prototype.onChildProcessClose = function(res) {
 	if (this.expectedReturnCode != undefined) {
 		if (this.returnCode != this.expectedReturnCode) {
 			var msg="Expected "+this.getFullCommand()+" to return "+this.expectedReturnCode+" but got "+this.returnCode+"\n";
-			msg+=this.output;
 
 			this.deferred.reject(msg);
 			return;
