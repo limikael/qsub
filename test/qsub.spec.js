@@ -10,8 +10,7 @@ describe("qsub", function() {
 
 	it("detects errors", function(done) {
 		qsub("does_not_exist").run().then(
-			function() {
-			},
+			function() {},
 			function() {
 				done();
 			}
@@ -20,8 +19,7 @@ describe("qsub", function() {
 
 	it("can expect a return code", function(done) {
 		qsub("ls").expect(1).run().then(
-			function() {
-			},
+			function() {},
 			function(e) {
 				done();
 			}
@@ -33,4 +31,14 @@ describe("qsub", function() {
 			done();
 		});
 	});
+
+	it("can get output", function(done) {
+		var job = qsub("echo");
+		job.arg("-n").arg("hello");
+
+		job.run().then(function() {
+			expect(job.getOutput()).toBe("hello");
+			done();
+		});
+	})
 });

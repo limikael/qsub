@@ -126,6 +126,14 @@ qsub.prototype.onChildProcessError = function(e) {
 }
 
 /**
+ * Get output.
+ * @method getOutput
+ */
+qsub.prototype.getOutput=function() {
+	return this.output;
+}
+
+/**
  * Resolve command path.
  * @method resolveCmd
  * @private
