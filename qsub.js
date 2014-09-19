@@ -14,6 +14,7 @@ function qsub(command) {
 	this.output = "";
 	this.showOutput = false;
 	this.deferred = Q.defer();
+	this.expectedOutput = undefined;
 }
 
 /**
@@ -48,6 +49,17 @@ qsub.prototype.show = function() {
  */
 qsub.prototype.expect = function(returnCode) {
 	this.expectedReturnCode = returnCode;
+
+	return this;
+}
+
+/**
+ * Set expected command output.
+ * @method expectOutput
+ * @chainable
+ */
+qsub.prototype.expectOutput = function(output) {
+	this.expectedOutput = output;
 
 	return this;
 }
@@ -92,8 +104,8 @@ qsub.prototype.onChildProcessOutput = function(data) {
  * Get full command for display.
  * @method getFullCommand
  */
-qsub.prototype.getFullCommand=function() {
-	return this.cmd+" "+this.cmdArgs.join(" ");
+qsub.prototype.getFullCommand = function() {
+	return this.cmd + " " + this.cmdArgs.join(" ");
 }
 
 /**
@@ -106,14 +118,25 @@ qsub.prototype.onChildProcessClose = function(res) {
 
 	if (this.expectedReturnCode != undefined) {
 		if (this.returnCode != this.expectedReturnCode) {
-			var msg="Expected "+this.getFullCommand()+" to return "+this.expectedReturnCode+" but got "+this.returnCode+"\n";
+			var msg = "Expected " + this.getFullCommand() +
+				" to return " + this.expectedReturnCode +
+				" but got " + this.returnCode + "\n";
 
 			this.deferred.reject(msg);
 			return;
 		}
 	}
 
-	this.deferred.resolve(this.returnCode);
+	if (this.expectedOutput != undefined) {
+		if (this.output != this.expectedOutput) {
+			var msg = "Unexpected output from " + this.getFullCommand() + "\n" + this.output;
+
+			this.deferred.reject(msg);
+			return;
+		}
+	}
+
+	this.deferred.resolve(); //this.returnCode);
 }
 
 /**
@@ -129,7 +152,7 @@ qsub.prototype.onChildProcessError = function(e) {
  * Get output.
  * @method getOutput
  */
-qsub.prototype.getOutput=function() {
+qsub.prototype.getOutput = function() {
 	return this.output;
 }
 

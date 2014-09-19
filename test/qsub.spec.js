@@ -40,5 +40,25 @@ describe("qsub", function() {
 			expect(job.getOutput()).toBe("hello");
 			done();
 		});
-	})
+	});
+
+	it("can get check output", function(done) {
+		var job = qsub("echo");
+		job.arg("-n").arg("hello");
+		job.expectOutput("hello");
+
+		job.run().then(function() {
+			done();
+		});
+	});
+
+	it("can get check output", function(done) {
+		var job = qsub("echo");
+		job.arg("-n").arg("hello");
+		job.expectOutput("hello2");
+
+		job.run().then(function() {}, function() {
+			done();
+		});
+	});
 });
