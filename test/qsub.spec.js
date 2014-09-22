@@ -33,19 +33,25 @@ describe("qsub", function() {
 	});
 
 	it("can get output", function(done) {
-		var job = qsub("echo");
-		job.arg("-n").arg("hello");
+		var job = qsub("ls");
+		job.arg("README.md");
 
-		job.run().then(function() {
-			expect(job.getOutput()).toBe("hello");
-			done();
-		});
+		job.run().then(
+			function() {
+				expect(job.getOutput()).toBe("README.md\n");
+				done();
+			},
+			function(e) {
+				console.log("Error: "+e);
+				throw new Error("Error: "+e);
+			}
+		);
 	});
 
 	it("can get check output", function(done) {
-		var job = qsub("echo");
-		job.arg("-n").arg("hello");
-		job.expectOutput("hello");
+		var job = qsub("ls");
+		job.arg("README.md");
+		job.expectOutput("README.md\n");
 
 		job.run().then(function() {
 			done();

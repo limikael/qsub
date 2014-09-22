@@ -1,5 +1,7 @@
 var child_process = require("child_process");
 var Q = require("q");
+var fs = require("fs");
+var path = require("path");
 
 /**
  * Constructor.
@@ -74,7 +76,9 @@ qsub.prototype.run = function() {
 	if (this.workingPath)
 		process.chdir(this.workingPath);
 
-	this.childProcess = child_process.spawn(this.cmd, this.cmdArgs);
+	var resolvedCmd = qsub.resolveCmd(this.cmd);
+
+	this.childProcess = child_process.spawn(resolvedCmd, this.cmdArgs);
 
 	this.childProcess.stdout.on("data", this.onChildProcessOutput.bind(this));
 	this.childProcess.stderr.on("data", this.onChildProcessOutput.bind(this));
