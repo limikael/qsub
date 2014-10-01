@@ -20,6 +20,16 @@ function qsub(command) {
 }
 
 /**
+ * Set working directory.
+ * @method cwd
+ * @chainable
+ */
+qsub.prototype.cwd = function(value) {
+	this.workingPath = value;
+	return this;
+}
+
+/**
  * Add arguments.
  * @method args
  * @chainable

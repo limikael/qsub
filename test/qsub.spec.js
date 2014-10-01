@@ -67,4 +67,14 @@ describe("qsub", function() {
 			done();
 		});
 	});
+
+	it("can set working direcory",function(done) {
+		var job = qsub("ls");
+		job.cwd("test");
+		job.expectOutput("qsub.spec.js\n");
+
+		job.run().then(function() {
+			done();
+		});
+	});
 });
